@@ -1,0 +1,15 @@
+{"question": "At what methane level must power to the section be cut?", "source": "safety_handbook.md", "answer_contains": "1.5% methane"}
+{"question": "What is the carbon monoxide alarm setpoint?", "source": "safety_handbook.md", "answer_contains": "25 ppm"}
+{"question": "How often are gas detectors fully calibrated?", "source": "safety_handbook.md", "answer_contains": "every 30 days"}
+{"question": "What happens if the main fan stops for a long time?", "source": "safety_handbook.md", "answer_contains": "more than 15 minutes"}
+{"question": "How far apart are refuge chambers?", "source": "safety_handbook.md", "answer_contains": "750 metres"}
+{"question": "What is the allowed pH range for discharge water?", "source": "environmental_monitoring.md", "answer_contains": "6.5 to 8.5"}
+{"question": "When must repeated water limit exceedances be reported to the pollution control board?", "source": "environmental_monitoring.md", "answer_contains": "within 72 hours"}
+{"question": "What is the 24-hour PM10 limit?", "source": "environmental_monitoring.md", "answer_contains": "100 micrograms per cubic metre"}
+{"question": "What is the night-time noise limit at the village?", "source": "environmental_monitoring.md", "answer_contains": "45 dB(A)"}
+{"question": "By which day must the monthly compliance report be submitted?", "source": "environmental_monitoring.md", "answer_contains": "10th day"}
+{"question": "How many days of paid annual leave do employees get?", "source": "employee_policies.md", "answer_contains": "18 days"}
+{"question": "How much is overtime paid?", "source": "employee_policies.md", "answer_contains": "1.5 times"}
+{"question": "When is a medical certificate needed for sick leave?", "source": "employee_policies.md", "answer_contains": "longer than 2 consecutive days"}
+{"question": "How long is the induction for new underground staff?", "source": "employee_policies.md", "answer_contains": "5-day induction"}
+{"question": "How quickly are hotline reports reviewed?", "source": "employee_policies.md", "answer_contains": "within 5 working days"}

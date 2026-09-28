@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install -e ".[dev,claude]"
+      - run: ruff check src tests
+      - run: pytest -q
+      - name: Retrieval evaluation
+        run: python -m ragqa eval
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t ragqa .
+      - name: Smoke test the container
+        run: |
+          docker run -d -p 8000:8000 --name ragqa ragqa
+          for i in $(seq 1 30); do curl -sf localhost:8000/health && break; sleep 1; done
+          curl -sf -X POST localhost:8000/ask -H 'content-type: application/json' \
+            -d '{"question": "What is the allowed pH range for discharge water?"}' | grep -q "6.5 to 8.5"
