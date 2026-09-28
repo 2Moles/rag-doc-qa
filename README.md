@@ -52,13 +52,15 @@ Docker: `docker build -t ragqa . && docker run -p 8000:8000 ragqa`
 
 The sample set is small (15 questions, 17 chunks), and most questions share words with their answers, so all three modes score near-perfectly. It works as a **regression check**, not a benchmark. Harder, paraphrased questions are the next step (see below).
 
+At the answer level, extractive mode puts the expected fact in its answer for **14 of 15** questions. The miss is "How often are gas detectors fully calibrated?": with no stemming, "calibrated" does not match "calibration", so a less relevant sentence wins. Adding a stemmer to `tokenize` is the obvious fix.
+
 ## Sample data
 
 `data/sample_docs/` contains three short **fictional** documents (a mining safety handbook, an environmental monitoring plan and HR policies) written for this demo. The company, and the limits in them, are made up.
 
 ## Limitations and next steps
 
-- **Lexical retrieval only.** A question that shares no words with the answer ("How long can staff stay home ill?") can miss. The fix is to add a dense embedding retriever as a third ranking in the RRF fusion.
+- **Lexical retrieval only.** A question that shares no words with the answer ("How long can staff stay home ill?") misses the sick-leave section. Worse, it can match an unrelated sentence on a single word ("stay"). Extractive mode guards against that: for questions with 3 or more meaningful words, a sentence must share at least 2 of them, otherwise the answer is "the documents do not appear to cover this". The real fix is a dense embedding retriever added as a third ranking in the RRF fusion.
 - **No re-ranking.** A cross-encoder re-ranker over the top 20 would improve precision on larger collections.
 - **In-memory index,** rebuilt on start-up. Fine for hundreds of documents; beyond that, persist to a vector store such as Milvus or pgvector.
 - The Claude answer path is covered by tests with a stand-in client. It has not been evaluated for answer quality. An answer-level eval (faithfulness, citation accuracy) would be the next addition.

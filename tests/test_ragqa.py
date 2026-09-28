@@ -148,3 +148,8 @@ def test_api_validates_input():
     client = TestClient(api.app)
     assert client.post("/ask", json={"question": "hi"}).status_code == 422
     assert client.post("/ask", json={"question": "valid question", "mode": "dense"}).status_code == 422
+
+
+def test_single_coincidental_word_is_not_an_answer(index):
+    q = "How long can staff stay home ill?"  # only "stay" matches, in an unrelated water-quality rule
+    assert answer_mod.extractive_answer(q, index.search(q)).text == answer_mod.NO_ANSWER

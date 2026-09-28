@@ -38,11 +38,14 @@ def extractive_answer(question: str, hits: list[Hit], max_sentences: int = 2) ->
     if not hits:
         return Answer(NO_ANSWER, "extractive")
     q_terms = set(tokenize(question))
+    # One shared word is often coincidence ("stay home" vs "must stay below"), so longer
+    # questions need two matching words before a sentence is quoted as the answer.
+    min_overlap = 2 if len(q_terms) >= 3 else 1
     candidates = []
     for n, hit in enumerate(hits, start=1):
         for pos, sentence in enumerate(split_sentences(hit.chunk.text)):
             overlap = len(q_terms & set(tokenize(sentence)))
-            if overlap:
+            if overlap >= min_overlap:
                 # Prefer higher-ranked chunks and earlier sentences when overlap ties.
                 candidates.append((-overlap, n, pos, sentence))
     if not candidates:
